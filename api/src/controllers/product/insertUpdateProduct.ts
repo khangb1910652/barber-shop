@@ -3,18 +3,21 @@ import { connection } from "../../database/mysql";
 
 const router = express.Router();
 
-export const getBaberById = () => {
+export const insertUpdateProduct = () => {
   return router.post(
     "/",
     async (req: express.Request, res: express.Response) => {
       try {
-        
-        const { idBaber } = req.body;
-        const sql = "SELECT idBaber, name, position, gender, contact, address, date_format(birthDay,'%Y-%m-%d') as birtDay, isActive, salary, avt FROM baber where idBaber = ?";
-        connection.query(sql, [idBaber], function (err, results) {
-          if (err) throw err;
-          res.json(results);
-        });
+        const { idProduct, nameProduct } = req.body;
+        const sql = "call insertUpdateProduct (?,?)";
+        connection.query(
+          sql,
+          [idProduct, nameProduct],
+          function (err, results) {
+            if (err) throw err;
+            res.json(results.affectedRows);
+          }
+        );
 
         // sql
         // const baber = {};
